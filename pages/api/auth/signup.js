@@ -1,5 +1,5 @@
-import { existingUser, createUser } from "../../../helper/db";
-
+import {existingUserDetail, createUser } from "../../../helpers/db";
+import {hashPassword} from '../../../helpers/auth'
 async function handler(req, res) {
   if (req.method !== "POST") {
     return;
@@ -7,7 +7,7 @@ async function handler(req, res) {
 
   const data = req.body;
 
-  const { email, password } = data;
+  const { name,email,phone,password } = data;
 
   if (
     !email ||
@@ -21,22 +21,25 @@ async function handler(req, res) {
     });
     return;
   }
-
-  const existingUser = await existingUser("users", { email: email });
-
+  const obj1={
+    email: email
+  };
+   const existingUser = await existingUserDetail(obj1);
+   console.log(existingUser);
   if (existingUser) {
     res.status(422).json({ message: "User exists already!" });
-    client.close();
     return;
   }
-
-  const result = await createUser("users", {
+  const hashedPassword = await hashPassword(password);
+  const obj={
+    name:name,
     email: email,
+    phone:phone,
     password: hashedPassword,
-  });
-  console.log(result);
+  };
+  const result = await createUser(obj);
+
   res.status(201).json({ message: "Created user!" });
-  client.close();
 }
 
 export default handler;

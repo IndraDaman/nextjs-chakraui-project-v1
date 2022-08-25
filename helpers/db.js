@@ -1,11 +1,5 @@
-import {getCollectionOne,connectToDatabase,createCollectionDetail} from "./db-mongo"
+import {existingUserDetail,createUser} from "./db-firebase"
 
-export async function existingUser(paramObj){
-    const user = getCollectionOne('users',paramObj)
-    return user;
-}
 
-export async function createUser(paramObj){
-    const result = createCollectionDetail('users',paramObj)
-    return result;
-}
+
+export {existingUserDetail,createUser}
