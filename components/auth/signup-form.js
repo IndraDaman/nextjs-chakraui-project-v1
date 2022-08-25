@@ -76,8 +76,8 @@ function SignFormContent() {
         padding={12}
         rounded={6}
         position={"relative"}
+        w="50%"
       >
-         <form onSubmit={submitHandler} >
         <Heading mb={6}>Sign Up</Heading>
         <Input placeholder="your name" variant={"filled"} mb={3} type="text" ref={nameInputRef}/>
         <Input
@@ -102,7 +102,7 @@ function SignFormContent() {
           type="password"
           ref={confirPasswordInputRef}
         />
-        <Button type="submit" colorScheme={"pink"}>Sign Up</Button>
+        <Button colorScheme={"pink"} onClick={submitHandler}>Sign Up</Button>
         <>
           Already have account!{" "}
           <NextLink href="/login" passHref>
@@ -120,7 +120,6 @@ function SignFormContent() {
         >
           {toggle ? <IoSunny /> : <IoMoon />}
         </Box>
-        </form>
       </Flex>
     </Flex>
   );
