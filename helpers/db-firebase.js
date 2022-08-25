@@ -8,7 +8,7 @@ import {
     deleteDoc,
   } from "firebase/firestore";
 
-  export async function existingUserDetail(objParam){
+export async function existingUserDetail(objParam){
     const databaseRef = collection(database, "userdetail");
     const result = await getDocs(databaseRef);
     const data = result.docs.map((data) => {
@@ -17,7 +17,6 @@ import {
       return internaldata;
     });
     const existingUser = {...data.filter((obj) => obj.email == objParam.email)};
-    console.log(existingUser[0]);
     if(existingUser[0]){        
     return existingUser[0];
     }else{
