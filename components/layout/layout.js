@@ -1,15 +1,12 @@
-import {
-  Flex
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
-import MainNavigation from './main-navigation';
+import MainNavigation from "./main-navigation";
 
 function Layout(props) {
   return (
     <>
       <MainNavigation />
       <main>{props.children}</main>
-
     </>
   );
 }

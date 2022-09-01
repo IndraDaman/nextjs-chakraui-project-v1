@@ -1,9 +1,9 @@
 import { getSession } from 'next-auth/react';
 
-import HomePageContent from '../components/home-page/home-page';
+import ChangePasswordFormContent from '../components/user/changepassword-form';
 
-function HomePage() {
-  return <HomePageContent />;
+function ChangePasswordPage() {
+  return <ChangePasswordFormContent />;
 }
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
@@ -21,4 +21,4 @@ export async function getServerSideProps(context) {
     props: { session },
   };
 }
-export default HomePage;
+export default ChangePasswordPage;

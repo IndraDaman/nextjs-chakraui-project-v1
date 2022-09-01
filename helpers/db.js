@@ -1,5 +1,5 @@
-import {existingUserDetail,createUser} from "./db-firebase"
+import {existingUserDetail,createUser,changePassword} from "./db-firebase"
 
 
 
-export {existingUserDetail,createUser}
+export {existingUserDetail,createUser,changePassword}

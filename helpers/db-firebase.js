@@ -17,7 +17,8 @@ export async function existingUserDetail(objParam){
       return internaldata;
     });
     const existingUser = {...data.filter((obj) => obj.email == objParam.email)};
-    if(existingUser[0]){        
+    if(existingUser[0]){       
+      console.log(existingUser[0]) ;
     return existingUser[0];
     }else{
         return null;
@@ -29,4 +30,13 @@ export async function createUser(obj){
     const result = await addDoc(databaseRef, obj)
   
     return result;
+}
+export async function changePassword(objParam){
+  console.log(objParam);
+  let fieldToEdit = doc(database, "userdetail", objParam.id);
+  const result = await updateDoc(fieldToEdit, {
+    password: objParam.password,
+  });
+
+  return result;
 }

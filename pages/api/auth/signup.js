@@ -15,7 +15,7 @@ async function handler(req, res) {
     !password ||
     password.trim().length < 7
   ) {
-    res.status(422).json({
+    res.status(422).json({status:422,
       message:
         "Invalid input - password should also be at least 7 characters long.",
     });
@@ -27,7 +27,7 @@ async function handler(req, res) {
    const existingUser = await existingUserDetail(obj1);
    console.log(existingUser);
   if (existingUser) {
-    res.status(422).json({ message: "User exists already!" });
+    res.status(422).json({status:422, message: "User exists already!" });
     return;
   }
   const hashedPassword = await hashPassword(password);
@@ -36,10 +36,11 @@ async function handler(req, res) {
     email: email,
     phone:phone,
     password: hashedPassword,
+    role:'admin'
   };
   const result = await createUser(obj);
 
-  res.status(201).json({ message: "Created user!" });
+  res.status(201).json({status:201, message: "Created user!" });
 }
 
 export default handler;

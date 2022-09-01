@@ -47,7 +47,7 @@ import { useRouter } from 'next/router'
             ...authState,
             redirect: false
         }).then(response => {
-            console.log(response)
+           
             if (response.ok) {
                 // Authenticate user
                 router.push("/")

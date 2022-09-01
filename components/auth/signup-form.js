@@ -15,6 +15,8 @@ import {
 import { useState ,useRef} from "react";
 import { IoSunny, IoMoon } from "react-icons/io5";
 import NextLink  from "next/link";
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 async function createUser(name,email,phone, password) {
   const response = await fetch('/api/auth/signup', {
@@ -24,7 +26,7 @@ async function createUser(name,email,phone, password) {
       'Content-Type': 'application/json',
     },
   });
-
+  
   const data = await response.json();
 
   if (!response.ok) {
@@ -44,6 +46,7 @@ function SignFormContent() {
   const { toggleColorMode } = useColorMode();
   const [toggle, setToggle] = useState(false);
   const fromBackGround = useColorModeValue("blue.300", "blue.700");
+  const router =  useRouter();
   async function submitHandler(event) {
     event.preventDefault();
 
@@ -53,21 +56,37 @@ function SignFormContent() {
     const enteredPassword = passwordInputRef.current.value;
     const enteredConfirmPassword = confirPasswordInputRef.current.value;
 
-    // optional: Add validation
-
       try {
-        // console.log(enteredName);
-        // console.log(enteredEmail);
-        // console.log(enteredPhone);
-        // console.log(enteredPassword);
-        // console.log(enteredConfirmPassword);
         const result = await createUser(enteredName,enteredEmail,enteredPhone, enteredPassword);
         console.log(result);
+        if(result && result.status==201){
+          const response =await handleAuth(enteredEmail,enteredPassword);
+          console.log(response);
+        }
       } catch (error) {
         console.log(error);
       }
     
   }
+  const handleAuth =  async (email,password) => {           
+    signIn('credentials', {
+        username:email,
+        password:password,
+        redirect: false
+    }).then(response => {
+       
+        if (response.ok) {
+            // Authenticate user
+            router.push("/")
+        } else {
+          console.log(response.error);
+            //setPageState(old => ({ ...old, processing: false, error: response.error }))
+        }
+    }).catch(error => {
+        console.log(error)
+        //setPageState(old => ({...old, processing: false, error: error.message ?? "Something went wrong!"}))
+    })
+}
   return (
     <Flex height={"100vh"} alignItems={"center"} justifyContent={"center"}>
       <Flex

@@ -10,36 +10,45 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-//import { useSession, signOut } from 'next-auth/client';
+import { useSession, signOut,getSession } from "next-auth/react";
 
 //import classes from './main-navigation.module.css';
 
 function MainNavigation() {
-  //const [session, loading] = useSession();
-
-  // function logoutHandler() {
-  //   signOut();
-  // }
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+console.log(session);
+  function logoutHandler() {
+    signOut();
+  }
 
   return (
     <Box bg={"blue.800"} w="100%" p={4} color="white" top={1}>
       <HStack spacing={8} alignItems={"center"}>
         <Box>Logo</Box>
 
-        <NextLink href="/" passHref>
-          <Link>
-            <div>Next Auth</div>
-          </Link>
-        </NextLink>
-        <NextLink href="/login" passHref>
-          <Link>Login</Link>
-        </NextLink>
-        <NextLink href="/" passHref>
-          <Link>Profile</Link>
-        </NextLink>
-        <Button colorScheme="teal" size="xs">
-          Logout
-        </Button>
+        {session && (
+          <NextLink href="/" passHref>
+            <Link>
+              <div>Next Auth</div>
+            </Link>
+          </NextLink>
+        )}
+        {!session && !loading && (
+          <NextLink href="/login" passHref>
+            <Link>Login</Link>
+          </NextLink>
+        )}
+        {session && session.user.role =="admin" && (
+          <NextLink href="/" passHref>
+            <Link>Profile</Link>
+          </NextLink>
+        )}
+        {session && (
+          <Button colorScheme="teal" size="xs" onClick={logoutHandler}>
+            Logout
+          </Button>
+        )}
       </HStack>
     </Box>
   );
