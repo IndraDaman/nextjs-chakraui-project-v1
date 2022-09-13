@@ -37,24 +37,11 @@ export const authOptions = {
       },
     }),
   ],
-  callbacks: {
-    jwt: ({ token, user }) => {
-      // first time jwt callback is run, user object is available
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-      }
-
-      return token;
-    },
-    session: ({ session, token }) => {
-      if (token) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-      }
-
-      return session;
-    },
+  callbacks: {async session({ session, token, user }) {
+    // Send properties to the client, like an access_token from a provider.
+    session.accessToken = token.accessToken
+    return session
+  }
   },
 };
 
